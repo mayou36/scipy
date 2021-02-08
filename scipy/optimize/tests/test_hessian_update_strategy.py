@@ -53,11 +53,11 @@ class TestHessianUpdateStrategy(TestCase):
     def test_hessian_initialization(self):
         ndims = 5
         rnd_matrix = np.random.randint(1, 50, size=(ndims, ndims))
-        init_scales = {None: np.eye(ndims),
-                       2: np.eye(ndims) * 2,
-                       np.array(range(1, ndims + 1)): np.eye(ndims) * np.array(range(1, ndims + 1)),
-                       rnd_matrix: rnd_matrix}
-        for init_scale, true_matrix in init_scales.items():
+        init_scales = ((None, np.eye(ndims)),
+                       (2, np.eye(ndims) * 2),
+                       (np.array(range(1, ndims + 1)), np.eye(ndims) * np.array(range(1, ndims + 1))),
+                       (rnd_matrix, rnd_matrix))
+        for init_scale, true_matrix in init_scales:
             quasi_newton = (BFGS(init_scale=init_scale), SR1(init_scale=init_scale))
 
             for qn in quasi_newton:
